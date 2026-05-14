@@ -1,7 +1,7 @@
-const { Client, GatewayIntentBits, Collection } = require('discord.js');
-const fs = require('fs');
-const path = require('path');
-const config = require('./config.json');
+const { Client, GatewayIntentBits, Collection } = require("discord.js");
+const fs = require("fs");
+const path = require("path");
+const config = require("./config.json");
 
 const client = new Client({
   intents: [
@@ -15,20 +15,22 @@ const client = new Client({
 
 client.commands = new Collection();
 
-const commandsPath = path.join(__dirname, 'commands');
-const commandFiles = fs.readdirSync(commandsPath).filter(f => f.endsWith('.js'));
+const commandsPath = path.join(__dirname, "commands");
+const commandFiles = fs
+  .readdirSync(commandsPath)
+  .filter((f) => f.endsWith(".js"));
 
 for (const file of commandFiles) {
   const command = require(path.join(commandsPath, file));
   client.commands.set(command.name, command);
 }
 
-client.once('ready', () => {
+client.once("clientReady", () => {
   console.log(`AscendStaff is online as ${client.user.tag}`);
-  client.user.setActivity('as!help | AscendGems');
+  client.user.setActivity("as!help | AscendGems");
 });
 
-client.on('messageCreate', async message => {
+client.on("messageCreate", async (message) => {
   if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 
   const args = message.content.slice(config.prefix.length).trim().split(/ +/);
@@ -36,8 +38,9 @@ client.on('messageCreate', async message => {
 
   if (!commandName) return;
 
-  const command = client.commands.get(commandName) ||
-    client.commands.find(c => c.aliases?.includes(commandName));
+  const command =
+    client.commands.get(commandName) ||
+    client.commands.find((c) => c.aliases?.includes(commandName));
 
   if (!command) return;
 
@@ -45,7 +48,9 @@ client.on('messageCreate', async message => {
     await command.execute(message, args, client);
   } catch (err) {
     console.error(err);
-    message.reply('An error occurred while executing that command.').catch(() => {});
+    message
+      .reply("An error occurred while executing that command.")
+      .catch(() => {});
   }
 });
 

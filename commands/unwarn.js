@@ -16,47 +16,42 @@ function saveWarns(warns) {
 }
 
 module.exports = {
-  name: 'warn',
-  description: 'Warn a user',
+  name: 'unwarn',
+  description: 'Remove the most recent warn from a user',
   async execute(message, args) {
     if (!requireStaff(message)) return;
 
-    if (!args.length) return message.reply('Usage: `as!warn <user> [reason]`');
+    if (!args.length) return message.reply('Usage: `as!unwarn <user> [reason]`');
 
     const target = message.mentions.members.first() ||
       await fetchMember(message.guild, args[0]);
 
     if (!target) return message.reply('Could not find that user.');
 
-    const reason = args.slice(1).join(' ') || 'No reason provided';
     const warns = getWarns();
 
-    if (!warns[target.id]) warns[target.id] = [];
-    warns[target.id].push({
-      mod: message.author.tag,
-      reason,
-      date: Date.now(),
-    });
+    if (!warns[target.id] || warns[target.id].length === 0) {
+      return message.reply('That user has no warns.');
+    }
+
+    const removed = warns[target.id].pop();
+    if (warns[target.id].length === 0) delete warns[target.id];
     saveWarns(warns);
 
-    const count = warns[target.id].length;
+    const reason = args.slice(1).join(' ') || 'No reason provided';
 
     const embed = new EmbedBuilder()
-      .setTitle('User Warned')
-      .setDescription(`**${target.user.tag}** has been warned. (${count} total)`)
+      .setTitle('Warn Removed')
+      .setDescription(`Removed a warn from **${target.user.tag}**`)
       .addFields(
-        { name: 'Reason', value: reason },
+        { name: 'Removed Warn', value: `**Reason:** ${removed.reason}\n**Mod:** ${removed.mod}` },
+        { name: 'Unwarn Reason', value: reason },
         { name: 'Moderator', value: message.author.tag }
       )
-      .setColor(0xffcc44)
+      .setColor(0x44ff88)
       .setTimestamp();
 
     message.channel.send({ embeds: [embed] });
-
-    try {
-      await target.send(`You have been warned in **${message.guild.name}**: ${reason}`);
-    } catch {}
-
-    logAction(message.guild, 'Warn', target.user, message.author, reason);
+    logAction(message.guild, 'Unwarn', target.user, message.author, reason);
   },
 };
