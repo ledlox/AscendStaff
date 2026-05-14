@@ -1,0 +1,8 @@
+{
+  "token": "YOUR_BOT_TOKEN_HERE",
+  "clientId": "YOUR_CLIENT_ID_HERE",
+  "prefix": "as!",
+  "staffRole": "Staff",
+  "adminRole": "Admin",
+  "logChannel": "mod-logs"
+}
