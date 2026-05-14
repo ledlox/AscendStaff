@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const config = require('../config.json');
+const config = require('../config');
 
 async function logAction(guild, action, target, moderator, reason) {
   const channel = guild.channels.cache.find(c => c.name === config.logChannel);

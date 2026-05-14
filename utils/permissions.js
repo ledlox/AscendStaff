@@ -1,4 +1,4 @@
-const config = require('../config.json');
+const config = require('../config');
 
 function isStaff(member) {
   if (!member) return false;

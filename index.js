@@ -1,7 +1,7 @@
 const { Client, GatewayIntentBits, Collection } = require("discord.js");
 const fs = require("fs");
 const path = require("path");
-const config = require("./config.json");
+const config = require("./config");
 
 const client = new Client({
   intents: [
