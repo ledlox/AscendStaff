@@ -54,10 +54,4 @@ client.on("messageCreate", async (message) => {
   }
 });
 
-if (!config.token) {
-  console.error('TOKEN environment variable is not set!');
-  console.error('Add TOKEN in Coolify -> Environment Variables');
-  process.exit(1);
-}
-console.log(`Token loaded: ${config.token.slice(0, 5)}...${config.token.slice(-5)}`);
 client.login(config.token);
