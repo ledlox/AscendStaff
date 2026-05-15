@@ -3,9 +3,9 @@ try { require('dotenv').config(); } catch {}
 const config = {
   token: process.env.TOKEN,
   prefix: process.env.PREFIX || 'as!',
-  staffRole: process.env.STAFF_ROLE || 'Staff',
-  adminRole: process.env.ADMIN_ROLE || 'Admin',
-  logChannel: process.env.LOG_CHANNEL || 'mod-logs',
+  staffRoleId: process.env.STAFF_ROLE_ID,
+  adminRoleId: process.env.ADMIN_ROLE_ID,
+  logChannelId: process.env.LOG_CHANNEL_ID,
 };
 
 module.exports = config;

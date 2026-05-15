@@ -4,14 +4,14 @@ function isStaff(member) {
   if (!member) return false;
   if (member.permissions.has('Administrator')) return true;
   return member.roles.cache.some(r =>
-    r.name === config.staffRole || r.name === config.adminRole
+    r.id === config.staffRoleId || r.id === config.adminRoleId
   );
 }
 
 function isAdmin(member) {
   if (!member) return false;
   if (member.permissions.has('Administrator')) return true;
-  return member.roles.cache.some(r => r.name === config.adminRole);
+  return member.roles.cache.some(r => r.id === config.adminRoleId);
 }
 
 function requireStaff(message) {
