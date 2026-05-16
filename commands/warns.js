@@ -4,7 +4,7 @@ const { fetchMember } = require('../utils/logger');
 const fs = require('fs');
 const path = require('path');
 
-const warnsPath = path.join(__dirname, '..', 'warns.json');
+const warnsPath = path.join(__dirname, '..', 'data', 'warns.json');
 
 function getWarns() {
   try { return JSON.parse(fs.readFileSync(warnsPath, 'utf8')); }
